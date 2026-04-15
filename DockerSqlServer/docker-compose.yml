@@ -1,0 +1,27 @@
+version: "3.3"
+
+services: 
+    data:
+        build:
+            dockerfile: ./data.dockerfile
+            context: .
+        container_name: fcg-data
+        volumes: 
+            - D:\BancoDeDados\SqlServer:C:\Data
+        environment:
+            ACCEPT_EULA: 'Y'
+            sa_password: 'woeIr34@#sjk'
+            attach_dbs: '[{"dbName":"FCG","dbFiles":["c:\\Data\\FCG_data.mdf","c:\\Data\\FCG_log.ldf"]}]'
+        networks:
+            local:
+                ipv4_address: 10.1.0.101
+        ports:
+            - 1400:1433
+
+networks:
+    local:
+        driver: nat
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.1.0.0/24
