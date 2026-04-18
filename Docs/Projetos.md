@@ -1,7 +1,7 @@
 # Projetos
 
-- FCP.Web.API *Start* [ASP.net Core Web Api - C#]
-- FCP.Infrastructure [Migration, Configuração do EFCore, Repository]
-- FCP.Application [DTOs]
-- FCP.Domain [Entities]
+- FIAP.FCG.Web.API *Start* [ASP.net Core Web Api - C#]
+- FIAP.FCG.Infrastructure [Migration, Configuração do EFCore, Repository]
+- FIAP.FCG.Application [DTOs]
+- FIAP.FCG.Domain [Entities]
 

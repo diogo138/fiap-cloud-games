@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP.FCG.Domain", "FIAP.FCG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP.FCG.Infrastructure", "FIAP.FCG.Infrastructure\FIAP.FCG.Infrastructure.csproj", "{FF8B8308-05C8-4E4A-AB72-E7BC5334257C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP.FCG.Application", "FIAP.FCG.Application\FIAP.FCG.Application.csproj", "{242C3A20-A37E-49A1-8AD9-691807E8D5DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FF8B8308-05C8-4E4A-AB72-E7BC5334257C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF8B8308-05C8-4E4A-AB72-E7BC5334257C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF8B8308-05C8-4E4A-AB72-E7BC5334257C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{242C3A20-A37E-49A1-8AD9-691807E8D5DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{242C3A20-A37E-49A1-8AD9-691807E8D5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{242C3A20-A37E-49A1-8AD9-691807E8D5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{242C3A20-A37E-49A1-8AD9-691807E8D5DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
