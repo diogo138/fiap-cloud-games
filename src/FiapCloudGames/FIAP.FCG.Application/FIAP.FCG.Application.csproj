@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FIAP.FCG.Infrastructure\FIAP.FCG.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
