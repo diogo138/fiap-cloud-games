@@ -1,0 +1,6 @@
+@FIAP.FCG.Web.API_HostAddress = http://localhost:5295
+
+GET {{FIAP.FCG.Web.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
