@@ -5,10 +5,12 @@ Todos os projetos foram desenvolvidos em .NET 9 com C#. O projeto principal foi 
 ## Ordem de Dependência
 A relação de dependência está definida de "cima para baixo", indicando qual projeto "conhece" outro projeto.
 
-- FIAP.FCG.Web.API *Start* (Endpoints, Controllers)
-- -> FIAP.FCG.Application (Serviços, DTOs)
-- -> -> FIAP.FCG.Domain (Regras de Negócios)
-- -> -> -> FIAP.FCG.Infrastructure (Migration, Configuração do EFCore, Banco, Entities, Repositório)
+```
+  FIAP.FCG.Web.API *Start* (Endpoints, Controllers)
+  ├── FIAP.FCG.Application (Serviços, DTOs)
+  ├── ├── FIAP.FCG.Domain (Regras de Negócios)
+  └── └── └── FIAP.FCG.Infrastructure (Migration, Configuração do EFCore, Banco, Entities, Repositório)
+```
 
 * Utilizado como referência o livro: Domain-Drive-Design de Eric Evans;
 
