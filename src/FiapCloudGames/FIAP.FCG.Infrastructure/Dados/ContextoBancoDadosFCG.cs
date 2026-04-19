@@ -5,42 +5,32 @@ namespace FIAP.FCG.Infrastructure.Dados;
 
 public partial class ContextoBancoDadosFCG : DbContext
 {
-    public ContextoBancoDadosFCG()
-    {
-    }
 
-    public ContextoBancoDadosFCG(DbContextOptions<ContextoBancoDadosFCG> options)
-        : base(options)
-    {
-    }
+	public DbSet<Acesso> Acessos => Set<Acesso>();
+	public DbSet<Administrador> Administradores => Set<Administrador>();
+	public DbSet<Carrinho> Carrinhos => Set<Carrinho>();
+	public DbSet<Categoria> Categorias => Set<Categoria>();
+	public DbSet<IntegradoraPagamento> IntegradorasPagamentos => Set<IntegradoraPagamento>();
+	public DbSet<Jogo> Jogos => Set<Jogo>();
+	public DbSet<JogoAdquirido> JogosAdquiridos => Set<JogoAdquirido>();
+	public DbSet<PrecoJogo> PrecosJogos => Set<PrecoJogo>();
+	public DbSet<Promocao> Promocoes => Set<Promocao>();
+	public DbSet<Resource> Resources => Set<Resource>();
+	public DbSet<Tag> Tags => Set<Tag>();
+	public DbSet<Transacao> Transacoes => Set<Transacao>();
+	public DbSet<Usuario> Usuarios => Set<Usuario>();
 
-    public virtual DbSet<Acesso> Acessos { get; set; }
+	public ContextoBancoDadosFCG()
+	{
+	}
 
-    public virtual DbSet<Administrador> Administradores { get; set; }
+	public ContextoBancoDadosFCG(DbContextOptions<ContextoBancoDadosFCG> options)
+		: base(options)
+	{
+	}
 
-    public virtual DbSet<Carrinho> Carrinhos { get; set; }
 
-    public virtual DbSet<Categoria> Categorias { get; set; }
-
-    public virtual DbSet<IntegradoraPagamento> IntegradorasPagamentos { get; set; }
-
-    public virtual DbSet<Jogo> Jogos { get; set; }
-
-    public virtual DbSet<JogoAdquirido> JogosAdquiridos { get; set; }
-
-    public virtual DbSet<PrecoJogo> PrecosJogos { get; set; }
-
-    public virtual DbSet<Promocao> Promocoes { get; set; }
-
-    public virtual DbSet<Resource> Resources { get; set; }
-
-    public virtual DbSet<Tag> Tags { get; set; }
-
-    public virtual DbSet<Transacao> Transacoes { get; set; }
-
-    public virtual DbSet<Usuario> Usuarios { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		ConfigurarLogsDeAcesso(modelBuilder);
 		ConfigurarAdministradoresDoSistema(modelBuilder);

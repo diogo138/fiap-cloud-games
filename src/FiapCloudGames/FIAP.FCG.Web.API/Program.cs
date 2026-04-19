@@ -1,4 +1,5 @@
 using FIAP.FCG.Infrastructure.Dados;
+using FIAP.FCG.Ioc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddDbContext<ContextoBancoDadosFCG>(options =>
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.ConfigurarInjecaoDeDependencias();
 
 var app = builder.Build();
 

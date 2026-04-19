@@ -1,0 +1,30 @@
+### CarrinhosController HTTP requests examples
+
+# Get carrinhos by usuarioId
+GET http://localhost:5295/api/carrinhos/usuario/2
+Accept: application/json
+
+###
+
+# Create a new carrinho
+POST http://localhost:5295/api/carrinhos
+Content-Type: application/json
+Accept: application/json
+
+{
+  "usuarioId": 2,
+  "jogoId": 2,
+  "quantidade": 1
+}
+
+###
+
+# Update quantidade of a carrinho
+PUT http://localhost:5295/api/carrinhos/2
+Content-Type: application/json
+Accept: application/json
+
+{
+  "quantidade": 2
+}
+

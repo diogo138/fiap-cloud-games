@@ -23,6 +23,7 @@
     <ProjectReference Include="..\FIAP.FCG.Application\FIAP.FCG.Application.csproj" />
     <ProjectReference Include="..\FIAP.FCG.Domain\FIAP.FCG.Domain.csproj" />
     <ProjectReference Include="..\FIAP.FCG.Infrastructure\FIAP.FCG.Infrastructure.csproj" />
+    <ProjectReference Include="..\FIAP.FCG.Ioc\FIAP.FCG.Ioc.csproj" />
   </ItemGroup>
 
 </Project>
