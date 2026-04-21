@@ -38,5 +38,19 @@ namespace FIAP.FCG.Tests
 			DataCadastro = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
 		};
 
+		public static Categoria NovaCategoria(string sufixo) => new()
+		{
+			Nome = $"Categoria {sufixo}",
+			Ativo = true,
+			DataCadastro = DateTime.UtcNow
+		};
+
+		public static PrecoJogo NovoPrecoJogo(Jogo jogo, decimal valor) => new()
+		{
+			Jogo = jogo,
+			Valor = valor,
+			DataInicio = DateTime.UtcNow
+		};
+
 	}
 }
