@@ -132,3 +132,6 @@ $RECYCLE.BIN/
 
 _NCrunch*
 /src/FiapCloudGames/.vs/FiapCloudGames
+
+# Configuracoes locais de ambiente — cada desenvolvedor tem a sua
+appsettings.Development.json
