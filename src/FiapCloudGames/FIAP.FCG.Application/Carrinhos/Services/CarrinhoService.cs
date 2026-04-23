@@ -35,14 +35,22 @@ public class CarrinhoService : ICarrinhoService
 		};
 	}
 
-	public async Task<CarrinhoDto> AdicionarAsync(CarrinhoNovoDto dto)
+	public async Task<CarrinhoDto> ListarPorUsuarioCarrinhoAsync(int usuarioId, int carrinhoId)
 	{
-		if (await _business.UsuarioJaPossuiJogo(dto.UsuarioId, dto.JogoId))
+		var carrinho = await _repositorio.ConsultarUsuarioCarrinhoAsync(usuarioId, carrinhoId);
+		if (carrinho == null)
+			throw new KeyNotFoundException("Item do carrinho não encontrado.");
+		return MapegarCarrinho(carrinho);
+	}
+
+	public async Task<CarrinhoDto> AdicionarAsync(int usuarioId, CarrinhoNovoDto dto)
+	{
+		if (await _business.UsuarioJaPossuiJogo(usuarioId, dto.JogoId))
 			throw new InvalidOperationException("Jogo já está no carrinho deste usuário.");
 
 		var carrinho = new Carrinho
 		{
-			UsuarioId = dto.UsuarioId,
+			UsuarioId = usuarioId,
 			JogoId = dto.JogoId,
 			Quantidade = dto.Quantidade,
 			DataCadastro = DateTime.UtcNow
@@ -53,17 +61,33 @@ public class CarrinhoService : ICarrinhoService
 		return MapegarCarrinho(carrinho);
 	}
 
-	public async Task<CarrinhoDto> AtualizarQuantidadeAsync(int id, CarrinhoAtualizadoDto dto)
+	public async Task<CarrinhoDto> AtualizarQuantidadeAsync(int usuarioId, int carrinhoId, CarrinhoAtualizadoDto dto)
 	{
-		var carrinho = await _repositorio.ConsultarAsync(id);
+		var carrinho = await _repositorio.ConsultarAsync(carrinhoId);
 
 		if (carrinho == null)
-			throw new KeyNotFoundException("Carrinho não encontrado.");
+			throw new KeyNotFoundException("Item do carrinho não encontrado.");
+
+		if (carrinho.UsuarioId != usuarioId)
+			throw new KeyNotFoundException("Item do carrinho não encontrado.");
 
 		carrinho.Quantidade = dto.Quantidade;
 
 		await _repositorio.AtualizarAsync(carrinho);
 
 		return MapegarCarrinho(carrinho);
+	}
+
+	public async Task RemoverAsync(int usuarioId, int carrinhoId)
+	{
+		var carrinho = await _repositorio.ConsultarAsync(carrinhoId);
+
+		if (carrinho == null)
+			throw new KeyNotFoundException("Item do carrinho não encontrado.");
+
+		if (carrinho.UsuarioId != usuarioId)
+			throw new KeyNotFoundException("Item do carrinho não encontrado.");
+
+		await _repositorio.RemoverAsync(carrinho);
 	}
 }

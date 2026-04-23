@@ -7,8 +7,12 @@ public interface ICarrinhoService
 
 	Task<IEnumerable<CarrinhoDto>> ListarPorUsuarioAsync(int usuario);
 
-	Task<CarrinhoDto> AdicionarAsync(CarrinhoNovoDto dto);
+	Task<CarrinhoDto> ListarPorUsuarioCarrinhoAsync(int usuarioId, int carrinhoId);
 
-	Task<CarrinhoDto> AtualizarQuantidadeAsync(int id, CarrinhoAtualizadoDto dto);
+	Task<CarrinhoDto> AdicionarAsync(int usuarioId, CarrinhoNovoDto dto);
+
+	Task<CarrinhoDto> AtualizarQuantidadeAsync(int usuarioId, int carrinhoId, CarrinhoAtualizadoDto dto);
+
+	Task RemoverAsync(int usuarioId, int carrinhoId);
 
 }

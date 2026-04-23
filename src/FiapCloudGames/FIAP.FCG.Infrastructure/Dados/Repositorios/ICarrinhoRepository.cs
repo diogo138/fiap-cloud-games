@@ -9,10 +9,14 @@ public interface ICarrinhoRepository
 
 	Task<IEnumerable<Carrinho>> ConsultarUsuarioAsync(int usuario);
 
+	Task<Carrinho?> ConsultarUsuarioCarrinhoAsync(int usuarioId, int jogoId);
+
 	Task<Carrinho?> ConsultarJogoDoUsuarioAsync(int usuario, int jogo);
 
 	Task AdicionarAsync(Carrinho carrinho);
 
 	Task AtualizarAsync(Carrinho carrinho);
+
+	Task RemoverAsync(Carrinho carrinho);
 
 }

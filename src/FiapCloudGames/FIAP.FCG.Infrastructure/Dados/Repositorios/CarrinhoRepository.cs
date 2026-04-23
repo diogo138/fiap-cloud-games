@@ -17,7 +17,12 @@ public class CarrinhoRepository : ICarrinhoRepository
 		=> await _repositorio.FindAsync(id);
 
 	public async Task<IEnumerable<Carrinho>> ConsultarUsuarioAsync(int usuarioId)
-		=> await _repositorio.Where(c => c.UsuarioId == usuarioId).ToListAsync();
+		=> await _repositorio.Where(c => c.UsuarioId == usuarioId)
+			.ToListAsync();
+
+	public async Task<Carrinho?> ConsultarUsuarioCarrinhoAsync(int usuarioId, int carrinhoId)
+		=> await _repositorio.Where(c => c.UsuarioId == usuarioId && c.Id == carrinhoId)
+			.FirstOrDefaultAsync();
 
 	public async Task<Carrinho?> ConsultarJogoDoUsuarioAsync(int usuarioId, int jogoId)
 		=> await _repositorio.FirstOrDefaultAsync(c => c.UsuarioId == usuarioId && c.JogoId == jogoId);
@@ -30,6 +35,12 @@ public class CarrinhoRepository : ICarrinhoRepository
 	public async Task AtualizarAsync(Carrinho carrinho)
 	{
 		_repositorio.Update(carrinho);
+		await Task.CompletedTask;
+	}
+
+	public async Task RemoverAsync(Carrinho carrinho)
+	{
+		_repositorio.Remove(carrinho);
 		await Task.CompletedTask;
 	}
 

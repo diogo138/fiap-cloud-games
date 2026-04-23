@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class CarrinhosController : ControllerBase
+public class CarrinhosController : PadraoController
 {
 
 	private readonly ICarrinhoService _service;
@@ -19,21 +17,28 @@ public class CarrinhosController : ControllerBase
 		_unidadeDeTrabalho = unidadeDeTrabalho;
 	}
 
-	[HttpGet("usuario/{usuarioId}")]
-	public async Task<IActionResult> GetByUsuario(int usuarioId)
+	[HttpGet("{usuarioId}")]
+	public async Task<IActionResult> GetPorUsuario(int usuarioId)
 	{
 		var carrinhos = await _service.ListarPorUsuarioAsync(usuarioId);
 		return Ok(carrinhos);
 	}
 
-	[HttpPost]
-	public async Task<IActionResult> Post([FromBody] CarrinhoNovoDto dto)
+	[HttpGet("{usuarioId}/{carrinhoId}")]
+	public async Task<IActionResult> GetPorUsuarioCarrinho(int usuarioId, int carrinhoId)
+	{
+		var carrinho = await _service.ListarPorUsuarioCarrinhoAsync(usuarioId, carrinhoId);
+		return Ok(carrinho);
+	}
+
+	[HttpPost("{id}")]
+	public async Task<IActionResult> Post(int id, [FromBody] CarrinhoNovoDto dto)
 	{
 		try
 		{
-			var carrinho = await _service.AdicionarAsync(dto);
+			var carrinho = await _service.AdicionarAsync(id, dto);
 			await _unidadeDeTrabalho.SalvarAsync();
-			return CreatedAtAction(nameof(GetByUsuario), new { usuarioId = carrinho.UsuarioId }, carrinho);
+			return CreatedAtAction(nameof(GetPorUsuario), new { usuarioId = carrinho.UsuarioId }, carrinho);
 		}
 		catch (InvalidOperationException ex)
 		{
@@ -41,18 +46,33 @@ public class CarrinhosController : ControllerBase
 		}
 	}
 
-	[HttpPut("{id}")]
-	public async Task<IActionResult> Put(int id, [FromBody] CarrinhoAtualizadoDto dto)
+	[HttpPatch("{usuarioId}/{carrinhoId}")]
+	public async Task<IActionResult> Patch(int usuarioId, int carrinhoId, [FromBody] CarrinhoAtualizadoDto dto)
 	{
 		try
 		{
-			var carrinho = await _service.AtualizarQuantidadeAsync(id, dto);
+			var carrinho = await _service.AtualizarQuantidadeAsync(usuarioId, carrinhoId, dto);
 			await _unidadeDeTrabalho.SalvarAsync();
 			return Ok(carrinho);
 		}
 		catch (KeyNotFoundException ex)
 		{
-			return NotFound(new { erro = ex.Message });
+			return BadRequest(new { erro = ex.Message });
+		}
+	}
+
+	[HttpDelete("{usuarioId}/{carrinhoId}")]
+	public async Task<IActionResult> Delete(int usuarioId, int carrinhoId)
+	{
+		try
+		{
+			await _service.RemoverAsync(usuarioId, carrinhoId);
+			await _unidadeDeTrabalho.SalvarAsync();
+			return Ok();
+		}
+		catch (KeyNotFoundException ex)
+		{
+			return BadRequest(new { erro = ex.Message });
 		}
 	}
 
