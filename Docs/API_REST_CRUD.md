@@ -107,12 +107,11 @@ Itens de carrinho (PK = `id`, com unicidade em `(usuarioId, jogoId)`).
 
 | Metodo | Endpoint | Operacao |
 |---|---|---|
-| GET | `/usuarios/{id}/carrinho` | Lista itens do carrinho do usuario (tabela `Carrinhos`) |
-| GET | `/carrinhos` | Lista itens (filtros: `usuarioId`, `jogoId`, `page`, `pageSize`, `sort`) |
-| POST | `/carrinhos` | Cria item no carrinho |
-| GET | `/carrinhos/{id}` | Obtem item por `id` |
-| PUT/PATCH | `/carrinhos/{id}` | Atualiza item (ex.: `quantidade`) |
-| DELETE | `/carrinhos/{id}` | Remove item do carrinho |
+| GET | `/carrinhos` | Lista itens do usuário atual (filtros: `jogoId`, `page`, `pageSize`, `sort`) |
+| GET | `/carrinhos/{id}` | Obtem item por `id` do usuário atual |
+| POST | `/carrinhos` | Cria item no carrinho do usuário atual |
+| PATCH | `/carrinhos/{id}` | Atualiza item (ex.: `quantidade`) do usuário atual |
+| DELETE | `/carrinhos/{id}` | Remove item do carrinho do usuário atual |
 | GET | `/usuarios/{id}/biblioteca` | Lista jogos adquiridos (tabela `JogosAdquiridos`) |
 | GET | `/usuarios/{id}/biblioteca/{jogoId}` | Obtem um jogo da biblioteca (por `jogoId`) |
 
