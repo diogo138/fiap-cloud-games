@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class CategoriasController : ControllerBase
+public class CategoriasController : PadraoController
 {
 
 	private readonly ICategoriaService _service;

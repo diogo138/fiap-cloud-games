@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class JogosController : ControllerBase
+public class JogosController : PadraoController
 {
 
 	private readonly IJogoService _service;
