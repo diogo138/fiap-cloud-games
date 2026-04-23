@@ -9,4 +9,8 @@ public interface IPrecoJogoRepository
 
 	Task AdicionarAsync(PrecoJogo precoJogo);
 
+	Task<decimal> ObterHistoricoDePrecoAsync(int jogoId);
+
+	Task RemoverAsync(int promocaoId, int jogoId);
+
 }
