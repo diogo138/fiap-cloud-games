@@ -29,4 +29,15 @@ public class UsuarioRepository : IUsuarioRepository
         _repositorio.Update(usuario);
         await Task.CompletedTask;
     }
+
+    public async Task<Usuario?> ConsultarBibliotecaAsync(int id)
+    {
+        var usuario = await _repositorio
+            .Include(u => u.JogosAdquiridos)
+                .ThenInclude(b => b.Jogo)
+                    .ThenInclude(b => b.Categoria)
+			.FirstOrDefaultAsync(u => u.Id == id);
+        return usuario;
+    }
+
 }

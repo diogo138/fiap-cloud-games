@@ -9,4 +9,5 @@ public interface IUsuarioRepository
     Task<IEnumerable<Usuario>> ListarAsync();
     Task AdicionarAsync(Usuario usuario);
     Task AtualizarAsync(Usuario usuario);
+    Task<Usuario?> ConsultarBibliotecaAsync(int id);
 }

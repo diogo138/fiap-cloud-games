@@ -1,0 +1,12 @@
+### UsuariosController HTTP requests examples
+@url = http://localhost:5295/api/usuarios
+
+# Consulta a biblioteca de jogos do usuário
+GET {{url}}/2/biblioteca
+Accept: application/json
+
+###
+
+# Consulta um item da biblioteca de jogos do usuário
+GET {{url}}/2/biblioteca/1
+Accept: application/json

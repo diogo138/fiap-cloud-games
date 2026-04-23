@@ -11,4 +11,6 @@ public interface IUsuarioService
     Task RemoverAsync(int id);
     Task ConcederAdminAsync(int id);
     Task RevogarAdminAsync(int id);
+    Task<IEnumerable<JogoBibliotecaDto>> ListarBibliotecaAsync(int id);
+    Task<JogoDetalhadoBibliotecaDto> ListarBibliotecaAsync(int usuarioId, int jogoId);
 }
