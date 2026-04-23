@@ -1,5 +1,6 @@
 using FIAP.FCG.Application.Carrinhos.Dtos;
 using FIAP.FCG.Application.Carrinhos.Services;
+using FIAP.FCG.Infrastructure.Dados.Entidades;
 using FIAP.FCG.Tests;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
@@ -52,9 +53,9 @@ public class CarrinhoServiceTest : PadraoTest
 
 		await AdicionarAsync(categoria, usuario, jogo, carrinhoExistente);
 
-		var dto = new CarrinhoNovoDto { UsuarioId = usuario.Id, JogoId = jogo.Id, Quantidade = 1 };
+		var dto = new CarrinhoNovoDto { JogoId = jogo.Id, Quantidade = 1 };
 
-		var ex = await Should.ThrowAsync<InvalidOperationException>(() => Service.AdicionarAsync(dto));
+		var ex = await Should.ThrowAsync<InvalidOperationException>(() => Service.AdicionarAsync(usuario.Id, dto));
 		ex.Message.ShouldContain("carrinho");
 	}
 
@@ -66,19 +67,19 @@ public class CarrinhoServiceTest : PadraoTest
 		var jogo = DataFakeFactory.NovoJogo("A", categoria);
 		await AdicionarAsync(categoria, usuario, jogo);
 
-		var dto = new CarrinhoNovoDto { UsuarioId = usuario.Id, JogoId = jogo.Id, Quantidade = 3 };
+		var dto = new CarrinhoNovoDto { JogoId = jogo.Id, Quantidade = 3 };
 
 		var agora = DateTime.UtcNow;
-		var resultado = await Service.AdicionarAsync(dto);
+		var resultado = await Service.AdicionarAsync(usuario.Id, dto);
 		await PersistirAsync();
 
-		resultado.UsuarioId.ShouldBe(dto.UsuarioId);
+		resultado.UsuarioId.ShouldBe(usuario.Id);
 		resultado.JogoId.ShouldBe(dto.JogoId);
 		resultado.Quantidade.ShouldBe(dto.Quantidade);
 		resultado.DataCadastro.ShouldBeInRange(agora.AddSeconds(-5), DateTime.UtcNow.AddSeconds(5));
 
 		var salvo = await Contexto.Carrinhos.AsNoTracking().SingleAsync(c =>
-			c.UsuarioId == dto.UsuarioId && c.JogoId == dto.JogoId);
+			c.UsuarioId == usuario.Id && c.JogoId == dto.JogoId);
 
 		salvo.Quantidade.ShouldBe(dto.Quantidade);
 		salvo.DataCadastro.ShouldBe(resultado.DataCadastro);
@@ -96,7 +97,7 @@ public class CarrinhoServiceTest : PadraoTest
 
 		var dto = new CarrinhoAtualizadoDto { Quantidade = 5 };
 
-		var resultado = await Service.AtualizarQuantidadeAsync(carrinho.Id, dto);
+		var resultado = await Service.AtualizarQuantidadeAsync(usuario.Id, carrinho.Id, dto);
 		await PersistirAsync();
 
 		resultado.Id.ShouldBe(carrinho.Id);
@@ -110,11 +111,27 @@ public class CarrinhoServiceTest : PadraoTest
 	}
 
 	[Test]
-	public async Task AtualizarQuantidadeAsync_QuandoCarrinhoNaoExistir_DeveLancarKeyNotFoundException()
+	public async Task AtualizarQuantidadeAsync_QuandoUsuarioNaoExistir_DeveLancarKeyNotFoundException()
 	{
 		var dto = new CarrinhoAtualizadoDto { Quantidade = 5 };
 
-		var ex = await Should.ThrowAsync<KeyNotFoundException>(() => Service.AtualizarQuantidadeAsync(999, dto));
+		var ex = await Should.ThrowAsync<KeyNotFoundException>(() => Service.AtualizarQuantidadeAsync(999, 999, dto));
+		ex.Message.ShouldContain("Carrinho");
+	}
+
+	[Test]
+	public async Task AtualizarQuantidadeAsync_QuandoCarrinhoNaoExistir_DeveLancarKeyNotFoundException()
+	{
+		var categoria = DataFakeFactory.NovaCategoria();
+		var usuario = DataFakeFactory.NovoUsuario("A");
+		var jogo = DataFakeFactory.NovoJogo("A", categoria);
+		var carrinho = DataFakeFactory.NovoCarrinho(jogo, usuario);
+
+		await AdicionarAsync(categoria, usuario, jogo, carrinho);
+
+		var dto = new CarrinhoAtualizadoDto { Quantidade = 5 };
+
+		var ex = await Should.ThrowAsync<KeyNotFoundException>(() => Service.AtualizarQuantidadeAsync(usuario.Id, 999, dto));
 		ex.Message.ShouldContain("Carrinho");
 	}
 
