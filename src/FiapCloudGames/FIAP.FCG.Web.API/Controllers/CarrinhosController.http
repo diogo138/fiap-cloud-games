@@ -26,12 +26,12 @@ Accept: application/json
 ###
 
 # Atualizar a quantidade de um item do carrinho
-PUT {{url}}/2/10
+PATCH {{url}}/2/10
 Content-Type: application/json
 Accept: application/json
 
 {
-  "quantidade": 2
+  "quantidade": 3
 }
 
 ###
