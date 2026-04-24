@@ -28,7 +28,7 @@ public partial class Jogo
 
     public virtual ICollection<Resource> Resources { get; set; } = new List<Resource>();
 
-    public virtual ICollection<Tag> IdTags { get; set; } = new List<Tag>();
+    public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
-    public virtual ICollection<Usuario> IdUsuarios { get; set; } = new List<Usuario>();
+    public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 }

@@ -85,7 +85,7 @@ public partial class ContextoBancoDadosFCG : DbContext
 				.HasDefaultValueSql("(getutcdate())")
 				.HasColumnName("dataCadastro");
 
-			entity.HasOne(d => d.Usuario).WithOne(p => p.Administradore)
+			entity.HasOne(d => d.Usuario).WithOne(p => p.Administrador)
 				.HasForeignKey<Administrador>(d => d.UsuarioId)
 				.OnDelete(DeleteBehavior.ClientSetNull)
 				.HasConstraintName("FK_Administradores_Usuarios");
@@ -207,7 +207,7 @@ public partial class ContextoBancoDadosFCG : DbContext
 				.OnDelete(DeleteBehavior.ClientSetNull)
 				.HasConstraintName("FK_Jogos_Categorias");
 
-			entity.HasMany(d => d.IdTags).WithMany(p => p.IdJogos)
+			entity.HasMany(d => d.Tags).WithMany(p => p.Jogos)
 				.UsingEntity<Dictionary<string, object>>(
 					"TagsPorJogo",
 					r => r.HasOne<Tag>().WithMany()
@@ -403,7 +403,7 @@ public partial class ContextoBancoDadosFCG : DbContext
 				.HasColumnType("decimal(10, 2)")
 				.HasColumnName("valorTotal");
 
-			entity.HasOne(d => d.IntegradoraPagamento).WithMany(p => p.Transacos)
+			entity.HasOne(d => d.IntegradoraPagamento).WithMany(p => p.Transacoes)
 				.HasForeignKey(d => d.IntegradoraPagamentoId)
 				.OnDelete(DeleteBehavior.ClientSetNull)
 				.HasConstraintName("FK_Transacoes_IntegradorasPagamento");
@@ -440,7 +440,7 @@ public partial class ContextoBancoDadosFCG : DbContext
 				.HasMaxLength(100)
 				.HasColumnName("nomeUsuario");
 
-			entity.HasMany(d => d.IdJogos).WithMany(p => p.IdUsuarios)
+			entity.HasMany(d => d.Jogos).WithMany(p => p.Usuarios)
 				.UsingEntity<Dictionary<string, object>>(
 					"ListasDeDesejo",
 					r => r.HasOne<Jogo>().WithMany()
