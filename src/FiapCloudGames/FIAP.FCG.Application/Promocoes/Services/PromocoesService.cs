@@ -1,4 +1,5 @@
 ﻿using FIAP.FCG.Application.Promocoes.Dtos;
+using FIAP.FCG.Domain.Promocoes;
 using FIAP.FCG.Infrastructure.Dados;
 using FIAP.FCG.Infrastructure.Dados.Entidades;
 using FIAP.FCG.Infrastructure.Dados.Repositorios;
@@ -7,15 +8,17 @@ namespace FIAP.FCG.Application.Promocoes.Services
 {
     public class PromocoesService : IPromocoesService
     {
-        private readonly IPromocoesRespository _repositorio;
+        private readonly IPromocoesRepository _repositorio;
         private readonly IPrecoJogoRepository _jogoRepository;
         private readonly IUnidadeDeTrabalho _unidade;
+        private readonly IPromocesBusiness _promocesBusiness;
 
-        public PromocoesService(IPromocoesRespository repositorio, IUnidadeDeTrabalho unidade, IPrecoJogoRepository jogoRepository)
+        public PromocoesService(IPromocoesRepository repositorio, IUnidadeDeTrabalho unidade, IPrecoJogoRepository jogoRepository, IPromocesBusiness promocesBusiness)
         {
             _repositorio = repositorio;
             _unidade = unidade;
             _jogoRepository = jogoRepository;
+            _promocesBusiness = promocesBusiness;
         }
 
         public async Task<IEnumerable<PromocaoDto>> ListarPromocoesAsync()
@@ -32,6 +35,12 @@ namespace FIAP.FCG.Application.Promocoes.Services
 
         public async Task<PromocaoDto> AdicionarPromocaoAsync(PromocaoNovaDto promocaoNovaDto)
         {
+            if (await _promocesBusiness.PromocaoJaExiste(promocaoNovaDto.Nome))
+                throw new InvalidOperationException("Já existe uma promoção com esse nome.");
+
+            if (_promocesBusiness.PeriodoPromocaoInvalido(promocaoNovaDto.DataInicio, promocaoNovaDto.DataFim))
+                throw new InvalidOperationException("O período da promoção é inválido.");
+
             var promocao = MapearNovaPromocao(promocaoNovaDto);
             await _repositorio.AdicionarPromocaoAsync(promocao);
             await _unidade.SalvarAsync();
@@ -109,6 +118,23 @@ namespace FIAP.FCG.Application.Promocoes.Services
             };
         }
 
+        public async Task<PromocaoDto> AtualizarPromocaoAsync(int promocaoId, PromocaoAtualizarDto promocaoAtualizarDto)
+        {
+            var promocao = await _repositorio.ObterPromocaoPorIdAsync(promocaoId); 
+            if (promocao == null)
+            {
+                return null;
+            }
 
+            promocao.Nome = promocaoAtualizarDto.Nome;
+            promocao.DataInicio = promocaoAtualizarDto.DataInicio;
+            promocao.DataFim = promocaoAtualizarDto.DataFim;
+            promocao.PercDesconto = promocaoAtualizarDto.PercDesconto;
+
+            await _repositorio.AtualizarPromocaoAsync(promocao);
+            await _unidade.SalvarAsync();
+
+            return MapearPromocao(promocao);
+        }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using FIAP.FCG.Application.Promocoes.Dtos;
 using FIAP.FCG.Application.Promocoes.Services;
+using FIAP.FCG.Infrastructure.Dados.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FIAP.FCG.Web.API.Controllers
 {
 
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PromocoesController : ControllerBase
+    public class PromocoesController : PadraoController
     {
         private readonly IPromocoesService _service;
 
@@ -38,12 +38,20 @@ namespace FIAP.FCG.Web.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] PromocaoNovaDto promocaoNova)
         {
-            if (promocaoNova == null)
+            try
             {
-                return BadRequest();
+                if (promocaoNova == null)
+                {
+                    return BadRequest();
+                }
+                var novaoPromocao = await _service.AdicionarPromocaoAsync(promocaoNova);
+                return Ok(novaoPromocao);
             }
-            var novaoPromocao = await _service.AdicionarPromocaoAsync(promocaoNova);
-            return Ok(novaoPromocao);
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { erro = ex.Message });
+            }
+
         }
 
         [HttpDelete("{promocaoId}")]
@@ -66,42 +74,13 @@ namespace FIAP.FCG.Web.API.Controllers
             await _service.RemoverNovoJogoEmPromocaoAsync(promocaoId, jogoId);
             return Ok();
         }
-
-        /*
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePromocao(int id, [FromBody] UpPromocaoReq upPromocaoReq)
+        
+        
+        [HttpPut("{promocaoId}")]
+        public async Task<IActionResult> UpdatePromocao(int promocaoId, [FromBody] PromocaoAtualizarDto promocaoAtualizarDto)
         {
-            var promocao = await _context.Promocoes.FindAsync(id);
-
-            if (promocao == null)
-            {
-                return NotFound();
-            }
-
-            Promocao updatedPromocao = new Promocao
-            {
-                Id = id,
-                Nome = upPromocaoReq.Nome,
-                DataCadastro = upPromocaoReq.DataCadastro,
-                DataInicio = upPromocaoReq.DataInicio,
-                DataFim = upPromocaoReq.DataFim,
-                PercentualDesconto = upPromocaoReq.PercentualDesconto
-            };
-
-            if (updatedPromocao.Equals(promocao))
-            {
-                return BadRequest();
-            }
-
-            promocao.Nome = upPromocaoReq.Nome;
-            promocao.DataCadastro = upPromocaoReq.DataCadastro;
-            promocao.DataInicio = upPromocaoReq.DataInicio;
-            promocao.DataFim = upPromocaoReq.DataFim;
-            promocao.PercentualDesconto = upPromocaoReq.PercentualDesconto;
-
-            await _context.SaveChangesAsync();
-            return BadRequest();
+            var promocao = await _service.AtualizarPromocaoAsync(promocaoId, promocaoAtualizarDto);
+            return Ok(promocao);
         }
-        */
     }
 }

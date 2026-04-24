@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIAP.FCG.Infrastructure.Dados.Repositorios
 {
-    public class PromocoesRespository : IPromocoesRespository
+    public class PromocoesRepository : IPromocoesRepository
     {
         private readonly DbSet<Promocao> _repositorio;
 
-        public PromocoesRespository(IUnidadeDeTrabalho unidade)
+        public PromocoesRepository(IUnidadeDeTrabalho unidade)
         {
             _repositorio = unidade.Repositorio<Promocao>();
         }
@@ -25,6 +25,12 @@ namespace FIAP.FCG.Infrastructure.Dados.Repositorios
         {
             var promocao = await _repositorio.FindAsync(promocaoId);
             _repositorio.Remove(promocao);
+        }
+
+        public Task AtualizarPromocaoAsync(Promocao promocao)
+        {
+            _repositorio.Update(promocao);
+            return Task.CompletedTask;
         }
     }
 }
