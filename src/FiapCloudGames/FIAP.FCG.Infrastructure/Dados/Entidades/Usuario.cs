@@ -16,11 +16,11 @@ public partial class Usuario
 
     public virtual ICollection<Acesso> Acessos { get; set; } = new List<Acesso>();
 
-    public virtual Administrador? Administradore { get; set; }
+    public virtual Administrador? Administrador { get; set; }
 
     public virtual ICollection<Carrinho> Carrinhos { get; set; } = new List<Carrinho>();
 
     public virtual ICollection<JogoAdquirido> JogosAdquiridos { get; set; } = new List<JogoAdquirido>();
 
-    public virtual ICollection<Jogo> IdJogos { get; set; } = new List<Jogo>();
+    public virtual ICollection<Jogo> Jogos { get; set; } = new List<Jogo>();
 }

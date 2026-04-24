@@ -10,5 +10,5 @@ public partial class Tag
 
     public bool Ativo { get; set; }
 
-    public virtual ICollection<Jogo> IdJogos { get; set; } = new List<Jogo>();
+    public virtual ICollection<Jogo> Jogos { get; set; } = new List<Jogo>();
 }

@@ -10,5 +10,5 @@ public partial class IntegradoraPagamento
 
     public bool Ativo { get; set; }
 
-    public virtual ICollection<Transacao> Transacos { get; set; } = new List<Transacao>();
+    public virtual ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
 }
