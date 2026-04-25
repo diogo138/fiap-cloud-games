@@ -17,28 +17,31 @@ public class CarrinhosController : PadraoController
 		_unidadeDeTrabalho = unidadeDeTrabalho;
 	}
 
-	[HttpGet("{usuarioId}")]
-	public async Task<IActionResult> GetPorUsuario(int usuarioId)
+	[HttpGet]
+	public async Task<IActionResult> GetCarrinhoUsuarioAtual()
 	{
+		var usuarioId = ContextoSeguranca.Usuario;
 		var carrinhos = await _service.ListarPorUsuarioAsync(usuarioId);
 		return Ok(carrinhos);
 	}
 
-	[HttpGet("{usuarioId}/{carrinhoId}")]
-	public async Task<IActionResult> GetPorUsuarioCarrinho(int usuarioId, int carrinhoId)
+	[HttpGet("{carrinhoId}")]
+	public async Task<IActionResult> GetItemCarrinhoUsuarioAtual(int carrinhoId)
 	{
+		var usuarioId = ContextoSeguranca.Usuario;
 		var carrinho = await _service.ListarPorUsuarioCarrinhoAsync(usuarioId, carrinhoId);
 		return Ok(carrinho);
 	}
 
-	[HttpPost("{id}")]
-	public async Task<IActionResult> Post(int id, [FromBody] CarrinhoNovoDto dto)
+	[HttpPost()]
+	public async Task<IActionResult> Post([FromBody] CarrinhoNovoDto dto)
 	{
 		try
 		{
-			var carrinho = await _service.AdicionarAsync(id, dto);
+			var usuarioId = ContextoSeguranca.Usuario;
+			var carrinho = await _service.AdicionarAsync(usuarioId, dto);
 			await _unidadeDeTrabalho.SalvarAsync();
-			return CreatedAtAction(nameof(GetPorUsuario), new { usuarioId = carrinho.UsuarioId }, carrinho);
+			return CreatedAtAction(nameof(GetUsuarioAtual), new { usuarioId = carrinho.UsuarioId }, carrinho);
 		}
 		catch (InvalidOperationException ex)
 		{
@@ -46,11 +49,12 @@ public class CarrinhosController : PadraoController
 		}
 	}
 
-	[HttpPatch("{usuarioId}/{carrinhoId}")]
-	public async Task<IActionResult> Patch(int usuarioId, int carrinhoId, [FromBody] CarrinhoAtualizadoDto dto)
+	[HttpPatch("{carrinhoId}")]
+	public async Task<IActionResult> Patch(int carrinhoId, [FromBody] CarrinhoAtualizadoDto dto)
 	{
 		try
 		{
+			var usuarioId = ContextoSeguranca.Usuario;
 			var carrinho = await _service.AtualizarQuantidadeAsync(usuarioId, carrinhoId, dto);
 			await _unidadeDeTrabalho.SalvarAsync();
 			return Ok(carrinho);
@@ -61,11 +65,12 @@ public class CarrinhosController : PadraoController
 		}
 	}
 
-	[HttpDelete("{usuarioId}/{carrinhoId}")]
-	public async Task<IActionResult> Delete(int usuarioId, int carrinhoId)
+	[HttpDelete("{carrinhoId}")]
+	public async Task<IActionResult> Delete(int carrinhoId)
 	{
 		try
 		{
+			var usuarioId = ContextoSeguranca.Usuario;
 			await _service.RemoverAsync(usuarioId, carrinhoId);
 			await _unidadeDeTrabalho.SalvarAsync();
 			return Ok();

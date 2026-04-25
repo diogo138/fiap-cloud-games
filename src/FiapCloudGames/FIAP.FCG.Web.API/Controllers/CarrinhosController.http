@@ -1,20 +1,23 @@
 ### CarrinhosController
-@url = http://localhost:5295/api/carrinhos
+@url = https://localhost:7010/api/Carrinhos
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBmY2cuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW5pc3RyYWRvciIsImV4cCI6MTc3NzEwMzIzMiwiaXNzIjoiRklBUC5GQ0ciLCJhdWQiOiJGSUFQLkZDRy5DbGllbnRlcyJ9.fFKjnfhi25HaFqIU9qhOgCgVfY-D0DZe4szInuHnpJQ
 
 # Consultar itens no carrinho do usuário
-GET {{url}}/2
+GET {{url}}
+Authorization: {{token}}
 Accept: application/json
-
 ###
 
 # Consultar apenas um item do carrinho do usuário
-GET {{url}}/2/10
+GET {{url}}/11
+Authorization: {{token}}
 Accept: application/json
 
 ###
 
 # Adicionar um novo item no carrinho
-POST {{url}}/2
+POST {{url}}
+Authorization: {{token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -26,7 +29,8 @@ Accept: application/json
 ###
 
 # Atualizar a quantidade de um item do carrinho
-PATCH {{url}}/2/10
+PATCH {{url}}/11
+Authorization: {{token}}
 Content-Type: application/json
 Accept: application/json
 
@@ -37,6 +41,7 @@ Accept: application/json
 ###
 
 # Remover um item do carrinho
-DELETE {{url}}/2/7
+DELETE {{url}}/7
+Authorization: {{token}}
 Content-Type: application/json
 Accept: application/json
