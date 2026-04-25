@@ -1,0 +1,14 @@
+### AutenticacaoController
+@url = http://localhost:5295/api/autenticacao
+
+# Gerar Token
+POST {{url}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "admin@fcg.com",
+  "senha": "123456"
+}
+
+###
