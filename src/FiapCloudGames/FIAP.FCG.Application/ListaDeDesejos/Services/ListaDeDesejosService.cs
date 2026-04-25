@@ -1,4 +1,5 @@
-﻿using FIAP.FCG.Infrastructure.Dados;
+﻿using FIAP.FCG.Application.ListaDeDesejos.Dtos;
+using FIAP.FCG.Infrastructure.Dados;
 using FIAP.FCG.Infrastructure.Dados.Repositorios;
 
 namespace FIAP.FCG.Application.ListaDeDesejos.Services
@@ -14,26 +15,34 @@ namespace FIAP.FCG.Application.ListaDeDesejos.Services
             _unidade = unidade;
         }
 
-        /* Métodos pré implementados para referência, podem ser ajustados conforme a necessidade do projeto
-         
-        public async Task<ListaDeDesejosDto> ObterListaDeDesejosPorUsuarioAsync(int usuarioId)
+        public async Task<IEnumerable<ListaDeDesejosDto>> ObterListaDeDesejosPorUsuarioAsync(int usuarioId)
         {
-            var listaDeDesejos = await _repository.ObterListaDeDesejosPorUsuarioAsync(usuarioId); 
-            return listaDeDesejos;
-        }
+            var usuario = await _repository.ObterListaDeDesejosPorUsuarioAsync(usuarioId);
 
+            if (usuario == null)
+                throw new KeyNotFoundException("Usuário não encontrado");
+
+            return usuario.Jogos.Select(j => new ListaDeDesejosDto
+            {
+                Id = j.Id,
+                Nome = j.Nome,
+                Descricao = j.Descricao,
+                DataLancamento = j.DataLancamento
+            });
+        }
 
         public async Task AdicionarNovoJogoEmListaDeDesejos(int usuarioId, int jogoId)
         {
-            await _repository.AdicionarNovoJogoEmListaDeDesejos(usuarioId, jogoId);
-            await _unidade.SalvarAlteracoesAsync();
+            await _repository.AdicionarNovoJogoEmListaDeDesejosAsync(usuarioId, jogoId);
+            await _unidade.SalvarAsync();
         }
 
+        
         public async Task RemoverJogoDaListaDeDesejos(int usuarioId, int jogoId)
         {
-            await _repository.RemoverJogoDaListaDeDesejos(usuarioId, jogoId);
-            await _unidade.SalvarAlteracoesAsync();
+            await _repository.RemoverJogoDaListaDeDesejosAsync(usuarioId, jogoId);
+            await _unidade.SalvarAsync();
         }
-        */
+        
     }
 }

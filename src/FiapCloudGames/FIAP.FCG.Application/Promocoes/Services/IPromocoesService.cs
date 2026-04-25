@@ -6,6 +6,8 @@ namespace FIAP.FCG.Application.Promocoes.Services
     {
         Task<IEnumerable<PromocaoDto>> ListarPromocoesAsync();
 
+        Task<IEnumerable<PromocaoDto>> ListarPromocoesAsync(string? nome, int page, string? orderBy, bool desc);
+
         Task<PromocaoDto> AtualizarPromocaoAsync(int promocaoId, PromocaoAtualizarDto promocaoAtualizarDto);
 
         Task<PromocaoDto> ObterPromocaoPorIdAsync(int promocaoId);

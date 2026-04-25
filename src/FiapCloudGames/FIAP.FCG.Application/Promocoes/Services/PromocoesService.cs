@@ -21,9 +21,16 @@ namespace FIAP.FCG.Application.Promocoes.Services
             _promocesBusiness = promocesBusiness;
         }
 
+
         public async Task<IEnumerable<PromocaoDto>> ListarPromocoesAsync()
         {
             var promocoes = await _repositorio.ConsultarPromocoesAsync();
+            return promocoes.Select(MapearPromocao);
+        }
+
+        public async Task<IEnumerable<PromocaoDto>> ListarPromocoesAsync(string? nome, int page, string? orderBy, bool desc)
+        {
+            var promocoes = await _repositorio.ConsultarPromocoesAsync(nome, page, orderBy, desc);
             return promocoes.Select(MapearPromocao);
         }
 
@@ -100,7 +107,7 @@ namespace FIAP.FCG.Application.Promocoes.Services
                 Id = promocao.Id,
                 Nome = promocao.Nome,
                 DataCadastro = promocao.DataCadastro,
-                DataInicio= promocao.DataInicio,
+                DataInicio = promocao.DataInicio,
                 DataFim = promocao.DataFim,
                 PercDesconto = promocao.PercDesconto
             };
@@ -120,7 +127,7 @@ namespace FIAP.FCG.Application.Promocoes.Services
 
         public async Task<PromocaoDto> AtualizarPromocaoAsync(int promocaoId, PromocaoAtualizarDto promocaoAtualizarDto)
         {
-            var promocao = await _repositorio.ObterPromocaoPorIdAsync(promocaoId); 
+            var promocao = await _repositorio.ObterPromocaoPorIdAsync(promocaoId);
             if (promocao == null)
             {
                 return null;

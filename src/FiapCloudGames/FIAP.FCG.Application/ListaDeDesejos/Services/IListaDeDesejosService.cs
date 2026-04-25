@@ -4,10 +4,10 @@ namespace FIAP.FCG.Application.ListaDeDesejos.Services
 {
     public interface IListaDeDesejosService
     {
-        //Task<ListaDeDesejosDto> ObterListaDeDesejosPorUsuarioAsync(int usuarioId);
+        Task<IEnumerable<ListaDeDesejosDto>> ObterListaDeDesejosPorUsuarioAsync(int usuarioId);
 
-        //Task AdicionarNovoJogoEmListaDeDesejos(int usuarioId, int jogoId);
+        Task AdicionarNovoJogoEmListaDeDesejos(int usuarioId, int jogoId);
 
-        //Task RemoverJogoDaListaDeDesejos(int usuarioId, int jogoId);
+        Task RemoverJogoDaListaDeDesejos(int usuarioId, int jogoId);
     }
 }

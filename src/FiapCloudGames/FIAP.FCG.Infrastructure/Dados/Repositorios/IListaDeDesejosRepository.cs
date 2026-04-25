@@ -4,10 +4,10 @@ namespace FIAP.FCG.Infrastructure.Dados.Repositorios
 {
     public interface IListaDeDesejosRepository
     {
-        //Task<ListaDeDesejosDto> ObterListaDeDesejosPorUsuarioAsync(int usuarioId);
+        Task<Usuario> ObterListaDeDesejosPorUsuarioAsync(int usuarioId);
 
-        //Task AdicionarNovoJogoEmListaDeDesejos(int usuarioId, int jogoId);
+        Task AdicionarNovoJogoEmListaDeDesejosAsync(int usuarioId, int jogoId);
 
-       // Task RemoverJogoDaListaDeDesejos(int usuarioId, int jogoId);
+        Task RemoverJogoDaListaDeDesejosAsync(int usuarioId, int jogoId);
     }
 }

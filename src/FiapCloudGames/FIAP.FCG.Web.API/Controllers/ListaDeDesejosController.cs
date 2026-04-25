@@ -1,4 +1,5 @@
 ﻿using FIAP.FCG.Application.ListaDeDesejos.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIAP.FCG.Web.API.Controllers
@@ -12,28 +13,47 @@ namespace FIAP.FCG.Web.API.Controllers
             _service = service;
         }
 
-        /* Métodos pré implementados para referência, podem ser ajustados conforme a necessidade do projeto
+       
          
         [HttpGet("usuarios/{usuarioId}/lista-de-desejos")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetListaDeDesejos(int usuarioId)
         {
             var listaDeDesejos = await _service.ObterListaDeDesejosPorUsuarioAsync(usuarioId);
             return Ok(listaDeDesejos);
         }
 
+
         [HttpPost("usuarios/{usuarioId}/lista-de-desejos/{jogoId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> AdicionarJogoNaListaDeDesejos(int usuarioId, int jogoId)
         {
-            await _service.AdicionarNovoJogoEmListaDeDesejos(usuarioId, jogoId);
-            return NoContent();
+            try
+            {
+                await _service.AdicionarNovoJogoEmListaDeDesejos(usuarioId, jogoId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { erro = ex.Message });
+            }
         }
 
+
         [HttpDelete("usuarios/{usuarioId}/lista-de-desejos/{jogoId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> RemoverJogoDaListaDeDesejos(int usuarioId, int jogoId)
         {
-            await _service.RemoverJogoDaListaDeDesejos(usuarioId, jogoId);
-            return NoContent();
+            try
+            {
+                await _service.RemoverJogoDaListaDeDesejos(usuarioId, jogoId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { erro = ex.Message });
+            }
         }
-        */
+
     }
 }

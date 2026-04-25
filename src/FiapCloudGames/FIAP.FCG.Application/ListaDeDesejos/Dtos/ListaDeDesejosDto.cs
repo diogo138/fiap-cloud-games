@@ -2,7 +2,9 @@
 {
     public class ListaDeDesejosDto
     {
-        public int IdUsuario { get; set; }
-        public int IdJogo { get; set; }
+        public int Id { get; set; }
+        public string Nome { get; set; } = null!;
+        public string? Descricao { get; set; }
+        public DateOnly? DataLancamento { get; set; }
     }
 }

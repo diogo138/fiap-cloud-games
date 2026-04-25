@@ -15,6 +15,42 @@ namespace FIAP.FCG.Infrastructure.Dados.Repositorios
         public async Task<IEnumerable<Promocao?>> ConsultarPromocoesAsync()
             => await _repositorio.ToListAsync();
 
+        public async Task<IEnumerable<Promocao>> ConsultarPromocoesAsync(string? nome, int page, string? orderBy, bool desc)
+        {
+            var query = _repositorio.AsQueryable();
+
+            // 🔍 Filtro por nome
+            if (!string.IsNullOrEmpty(nome))
+            {
+                query = query.Where(p => p.Nome.Contains(nome));
+            }
+
+            // 🔄 Ordenação
+            query = orderBy?.ToLower() switch
+            {
+                "nome" => desc
+                    ? query.OrderByDescending(p => p.Nome)
+                    : query.OrderBy(p => p.Nome),
+
+                "datainicio" => desc
+                    ? query.OrderByDescending(p => p.DataInicio)
+                    : query.OrderBy(p => p.DataInicio),
+
+                _ => desc
+                    ? query.OrderByDescending(p => p.DataCadastro)
+                    : query.OrderBy(p => p.DataCadastro)
+            };
+
+            // 📄 Paginação (10 por página)
+            const int pageSize = 10;
+
+            query = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+
+            return await query.ToListAsync();
+        }
+
         public async Task<Promocao?> ObterPromocaoPorIdAsync(int promocoesId)
             => await _repositorio.FindAsync(promocoesId);
 
