@@ -41,7 +41,7 @@ public class CarrinhosController : PadraoController
 			var usuarioId = ContextoSeguranca.Usuario;
 			var carrinho = await _service.AdicionarAsync(usuarioId, dto);
 			await _unidadeDeTrabalho.SalvarAsync();
-			return CreatedAtAction(nameof(GetUsuarioAtual), new { usuarioId = carrinho.UsuarioId }, carrinho);
+			return CreatedAtAction(nameof(GetCarrinhoUsuarioAtual), new { usuarioId = carrinho.UsuarioId }, carrinho);
 		}
 		catch (InvalidOperationException ex)
 		{
