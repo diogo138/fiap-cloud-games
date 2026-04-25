@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FIAP.FCG.Tests
 {
+	[FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
 	public abstract class PadraoTest
 	{
 
