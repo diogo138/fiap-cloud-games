@@ -1,8 +1,6 @@
 ﻿using FIAP.FCG.Application.Autenticacao.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
