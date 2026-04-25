@@ -1,12 +1,15 @@
 ### UsuariosController HTTP requests examples
-@url = http://localhost:5295/api/usuarios
+@url = https://localhost:7010/api/usuarios
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBmY2cuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW5pc3RyYWRvciIsImV4cCI6MTc3NzEwMzIzMiwiaXNzIjoiRklBUC5GQ0ciLCJhdWQiOiJGSUFQLkZDRy5DbGllbnRlcyJ9.fFKjnfhi25HaFqIU9qhOgCgVfY-D0DZe4szInuHnpJQ
 
 # Consulta a biblioteca de jogos do usuário
-GET {{url}}/2/biblioteca
+GET {{url}}/biblioteca
+Authorization: {{token}}
 Accept: application/json
 
 ###
 
 # Consulta um item da biblioteca de jogos do usuário
-GET {{url}}/2/biblioteca/1
+GET {{url}}/biblioteca/1
+Authorization: {{token}}
 Accept: application/json
