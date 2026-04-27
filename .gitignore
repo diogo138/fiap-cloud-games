@@ -136,3 +136,5 @@ _NCrunch*
 # Configuracoes locais de ambiente — cada desenvolvedor tem a sua
 appsettings.Development.json
 src/FiapCloudGames/FIAP.FCG.Web.API/appsettings.json
+.vs
+.dotnet
