@@ -28,7 +28,12 @@ chmod +x iniciar-servidor.sh
 ./iniciar-servidor.sh
 ```
 
+**SQL Server Local:**
+Caso não seja possível rodar o Docker, basta configurar um SQL Server e ajustar a variável "ConexaoPadrao" do arquivo "appsettings.json" para uma string de conexão válida.
+
 O banco `FCG` será criado automaticamente com todos os dados de exemplo na primeira execução.
+
+Caso deseje, basta rodar o arquivo "Docs\FCG.sql" para criar um ambiente completo com dados para teste pré-cadastrados.
 
 ---
 
@@ -45,4 +50,4 @@ A API estará disponível em: `http://localhost:5295`
 
 ## Migrations
 
-Foi utilizado engenharia reversa para gerar os modelos com base no banco de dados já existente.
+Foi utilizado engenharia reversa (via Scaffold-DbContext) para gerar os modelos com base no banco de dados já existente.
