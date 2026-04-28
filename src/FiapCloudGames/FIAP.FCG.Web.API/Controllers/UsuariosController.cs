@@ -3,9 +3,11 @@ using FIAP.FCG.Application.Usuarios.Services;
 using FIAP.FCG.Infrastructure.Dados;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
+[Tags("Usuários")]
 public class UsuariosController : PadraoController
 {
 	private readonly IUsuarioService _service;
@@ -19,6 +21,9 @@ public class UsuariosController : PadraoController
 
 	[Authorize(Roles = "Administrador")]
 	[HttpGet]
+	[SwaggerOperation(Summary = "Listar usuários", Description = "Retorna todos os usuários cadastrados. Requer perfil Administrador.")]
+	[ProducesResponseType(typeof(IEnumerable<UsuarioDto>), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	public async Task<IActionResult> Get()
 	{
 		var usuarios = await _service.ListarAsync();
@@ -26,6 +31,10 @@ public class UsuariosController : PadraoController
 	}
 
 	[HttpGet("{id}")]
+	[SwaggerOperation(Summary = "Obter usuário por ID", Description = "Retorna os detalhes de um usuário específico.")]
+	[ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<IActionResult> GetById(int id)
 	{
 		try
@@ -41,6 +50,9 @@ public class UsuariosController : PadraoController
 
 	[AllowAnonymous]
 	[HttpPost]
+	[SwaggerOperation(Summary = "Registrar usuário", Description = "Cria uma nova conta de usuário.")]
+	[ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status201Created)]
+	[ProducesResponseType(StatusCodes.Status409Conflict)]
 	public async Task<IActionResult> Post([FromBody] UsuarioNovoDto dto)
 	{
 		try
@@ -57,6 +69,10 @@ public class UsuariosController : PadraoController
 
 	[Authorize(Roles = "Administrador")]
 	[HttpPut("{id}")]
+	[SwaggerOperation(Summary = "Atualizar usuário", Description = "Atualiza os dados de um usuário. Requer perfil Administrador.")]
+	[ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<IActionResult> Put(int id, [FromBody] UsuarioAtualizadoDto dto)
 	{
 		try
@@ -73,6 +89,10 @@ public class UsuariosController : PadraoController
 
 	[Authorize(Roles = "Administrador")]
 	[HttpDelete("{id}")]
+	[SwaggerOperation(Summary = "Remover usuário", Description = "Remove um usuário pelo ID. Requer perfil Administrador.")]
+	[ProducesResponseType(StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try
@@ -89,6 +109,10 @@ public class UsuariosController : PadraoController
 
 	[Authorize(Roles = "Administrador")]
 	[HttpPut("{id}/admin")]
+	[SwaggerOperation(Summary = "Conceder perfil Administrador", Description = "Eleva um usuário ao perfil Administrador. Requer perfil Administrador.")]
+	[ProducesResponseType(StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<IActionResult> ConcederAdmin(int id)
 	{
 		try
@@ -109,6 +133,10 @@ public class UsuariosController : PadraoController
 
 	[Authorize(Roles = "Administrador")]
 	[HttpDelete("{id}/admin")]
+	[SwaggerOperation(Summary = "Revogar perfil Administrador", Description = "Remove o perfil de Administrador de um usuário. Requer perfil Administrador.")]
+	[ProducesResponseType(StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<IActionResult> RevogarAdmin(int id)
 	{
 		try
@@ -124,6 +152,10 @@ public class UsuariosController : PadraoController
 	}
 
 	[HttpGet("biblioteca")]
+	[SwaggerOperation(Summary = "Listar biblioteca do usuário", Description = "Retorna os jogos comprados pelo usuário autenticado.")]
+	[ProducesResponseType(typeof(IEnumerable<object>), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<IActionResult> GetBiblioteca()
 	{
 		try

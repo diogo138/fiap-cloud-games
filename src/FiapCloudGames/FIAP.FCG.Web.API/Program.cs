@@ -1,6 +1,7 @@
 using System.Text;
 using FIAP.FCG.Infrastructure.Dados;
 using FIAP.FCG.Ioc;
+using FIAP.FCG.Web.API.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -37,6 +38,15 @@ builder.Services.AddControllers();
 // Swagger com suporte a JWT
 builder.Services.AddSwaggerGen(c =>
 {
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "FIAP Cloud Games API",
+        Version = "v1",
+        Description = "API REST da plataforma FIAP Cloud Games. Gerencia usuários, jogos, categorias, carrinho de compras, lista de desejos e promoções."
+    });
+
+    c.EnableAnnotations();
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -71,9 +81,15 @@ contexto.Database.Migrate();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "FIAP Cloud Games API v1");
+        c.RoutePrefix = "swagger";
+    });
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<LogMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

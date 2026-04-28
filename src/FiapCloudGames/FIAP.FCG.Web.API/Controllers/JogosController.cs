@@ -3,9 +3,11 @@ using FIAP.FCG.Application.Jogos.Services;
 using FIAP.FCG.Infrastructure.Dados;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
+[Tags("Jogos")]
 public class JogosController : PadraoController
 {
     private readonly IJogoService _service;
@@ -19,6 +21,8 @@ public class JogosController : PadraoController
 
     [AllowAnonymous]
     [HttpGet]
+    [SwaggerOperation(Summary = "Listar jogos", Description = "Retorna a lista de jogos com filtros opcionais por categoria, visibilidade, status e busca por nome.")]
+    [ProducesResponseType(typeof(IEnumerable<JogoDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(
         [FromQuery] int? categoriaId,
         [FromQuery] bool? visivel,
@@ -31,6 +35,9 @@ public class JogosController : PadraoController
 
     [AllowAnonymous]
     [HttpGet("{id}")]
+    [SwaggerOperation(Summary = "Obter jogo por ID", Description = "Retorna os detalhes de um jogo específico.")]
+    [ProducesResponseType(typeof(JogoDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(int id)
     {
         try
@@ -46,6 +53,10 @@ public class JogosController : PadraoController
 
     [Authorize(Roles = "Administrador")]
     [HttpPost]
+    [SwaggerOperation(Summary = "Adicionar jogo", Description = "Cria um novo jogo. Requer perfil Administrador.")]
+    [ProducesResponseType(typeof(JogoDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Post([FromBody] JogoNovoDto dto)
     {
         try
@@ -62,6 +73,11 @@ public class JogosController : PadraoController
 
     [Authorize(Roles = "Administrador")]
     [HttpPut("{id}")]
+    [SwaggerOperation(Summary = "Atualizar jogo", Description = "Atualiza os dados de um jogo existente. Requer perfil Administrador.")]
+    [ProducesResponseType(typeof(JogoDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Put(int id, [FromBody] JogoAtualizadoDto dto)
     {
         try
@@ -82,6 +98,10 @@ public class JogosController : PadraoController
 
     [Authorize(Roles = "Administrador")]
     [HttpDelete("{id}")]
+    [SwaggerOperation(Summary = "Remover jogo", Description = "Remove um jogo pelo ID. Requer perfil Administrador.")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
         try
@@ -98,6 +118,10 @@ public class JogosController : PadraoController
 
     [Authorize(Roles = "Administrador")]
     [HttpPost("{id}/ajustar-preco")]
+    [SwaggerOperation(Summary = "Ajustar preço do jogo", Description = "Aplica um novo preço a um jogo. Requer perfil Administrador.")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> AjustarPreco(int id, [FromBody] AjustarPrecoDto dto)
     {
         try

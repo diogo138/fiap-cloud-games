@@ -3,10 +3,12 @@ using FIAP.FCG.Application.Autenticacao.Services;
 using FIAP.FCG.Infrastructure.Dados;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
 [AllowAnonymous]
+[Tags("Autenticação")]
 public class AutenticacaoController : PadraoController
 {
 	private readonly IAutenticacaoService _service;
@@ -19,6 +21,9 @@ public class AutenticacaoController : PadraoController
 	}
 
 	[HttpPost]
+	[SwaggerOperation(Summary = "Autenticar usuário", Description = "Realiza login com e-mail e senha e retorna um token JWT.")]
+	[ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	public async Task<IActionResult> Post([FromBody] AutenticacaoDto dto)
 	{
 		try

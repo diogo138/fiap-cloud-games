@@ -2,9 +2,11 @@ using FIAP.FCG.Application.Carrinhos.Dtos;
 using FIAP.FCG.Application.Carrinhos.Services;
 using FIAP.FCG.Infrastructure.Dados;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FIAP.FCG.Web.API.Controllers;
 
+[Tags("Carrinho")]
 public class CarrinhosController : PadraoController
 {
 
@@ -18,6 +20,9 @@ public class CarrinhosController : PadraoController
 	}
 
 	[HttpGet]
+	[SwaggerOperation(Summary = "Listar carrinho", Description = "Retorna os itens do carrinho do usuário autenticado.")]
+	[ProducesResponseType(typeof(IEnumerable<object>), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	public async Task<IActionResult> GetCarrinhoUsuarioAtual()
 	{
 		var usuarioId = ContextoSeguranca.Usuario;
@@ -26,6 +31,9 @@ public class CarrinhosController : PadraoController
 	}
 
 	[HttpGet("{carrinhoId}")]
+	[SwaggerOperation(Summary = "Obter item do carrinho", Description = "Retorna um item específico do carrinho do usuário autenticado.")]
+	[ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	public async Task<IActionResult> GetItemCarrinhoUsuarioAtual(int carrinhoId)
 	{
 		var usuarioId = ContextoSeguranca.Usuario;
@@ -34,6 +42,10 @@ public class CarrinhosController : PadraoController
 	}
 
 	[HttpPost()]
+	[SwaggerOperation(Summary = "Adicionar item ao carrinho", Description = "Adiciona um jogo ao carrinho do usuário autenticado.")]
+	[ProducesResponseType(typeof(object), StatusCodes.Status201Created)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	public async Task<IActionResult> Post([FromBody] CarrinhoNovoDto dto)
 	{
 		try
@@ -50,6 +62,10 @@ public class CarrinhosController : PadraoController
 	}
 
 	[HttpPatch("{carrinhoId}")]
+	[SwaggerOperation(Summary = "Atualizar quantidade no carrinho", Description = "Altera a quantidade de um item no carrinho do usuário autenticado.")]
+	[ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	public async Task<IActionResult> Patch(int carrinhoId, [FromBody] CarrinhoAtualizadoDto dto)
 	{
 		try
@@ -66,6 +82,10 @@ public class CarrinhosController : PadraoController
 	}
 
 	[HttpDelete("{carrinhoId}")]
+	[SwaggerOperation(Summary = "Remover item do carrinho", Description = "Remove um item do carrinho do usuário autenticado.")]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 	public async Task<IActionResult> Delete(int carrinhoId)
 	{
 		try
