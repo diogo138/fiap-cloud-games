@@ -13,4 +13,4 @@
 - Links
   - Link da documentação: https://miro.com/welcomeonboard/Rm1XaENOYjRzN0RHZ2NIUFRpRFFmM0xZZCtaZUk3THBIZGp4SUhTZlJYRjUwalpXeUUwQUIzL2czNjhqT01zYUlxZDdBWUdJY21aSUN3ei82ZWZTb2JXZ05UdjFkSUcwM21GKzhiSEIwbXNweG1NUjg2eHlBUEJ3b295bDd2WVpnbHpza3F6REdEcmNpNEFOMmJXWXBBPT0hdjE=?share_link_id=363324974609
   - Link do repositório: https://github.com/diogo138/fiap-cloud-games
-  - Link do vídeo salvo: 
+  - Link do vídeo salvo: https://github.com/diogo138/fiap-cloud-games/issues/1
